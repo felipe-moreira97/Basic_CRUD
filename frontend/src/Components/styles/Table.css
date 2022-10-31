@@ -1,0 +1,34 @@
+.Table {
+    background-color: #aaa;
+    border-spacing:0;
+    box-shadow: 5px 5px 15px #000;
+}
+.Table th {
+    background-color: #333;
+    color:#eee;
+    font-size: 1.4rem;
+    font-weight: 500;
+    padding:8px 48px;
+    border: none;
+    margin:0;
+}
+.Table tr {
+    margin:0;
+    border: none;
+}
+.Table td {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin:0;
+    border: none;
+    text-align: center;
+    padding: 6px 36px;
+}
+.Table tbody tr:nth-last-of-type(odd) {
+    background-color:#eee;
+}
+.Table .btn-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
