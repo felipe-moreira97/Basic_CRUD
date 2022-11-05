@@ -10,7 +10,7 @@ const login = require('./routes/login')
 const signin = require('./routes/singIn')
 const userRoute = require('./routes/user')
 
-app.use(bodyParser.json(),morgan('dev'),cors())
+app.use(bodyParser.json(),morgan('dev'),cors()) //BUG - retirar esse cors
 /*app.use('/',(req,res,next) => {
     res.header('Access-Control-Allow-Origin','http://localhost:3000')
     res.header('Access-Control-Allow-Headers','*')
@@ -18,7 +18,7 @@ app.use(bodyParser.json(),morgan('dev'),cors())
     next()
 }) */
 
-app.use('/signin',signin)
+app.use('/signin',auth,signin)
 app.use('/login',login)
 app.use('/user',auth,userRoute)
 

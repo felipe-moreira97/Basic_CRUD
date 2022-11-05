@@ -1,5 +1,5 @@
-import deleteUser from "../utils/deleteUser"
-import { getToken } from "../utils/token"
+import deleteUser from "../../utils/deleteUser"
+import { getToken } from "../../utils/token"
 import { useNavigate } from 'react-router-dom'
 
 const Rows = ({users,setUsers}) => {

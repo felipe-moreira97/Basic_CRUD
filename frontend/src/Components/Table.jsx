@@ -2,7 +2,7 @@ import './styles/Table.css'
 import React from "react";
 import { useEffect,useState } from "react";
 import request from "../utils/request";
-import Rows from "./Rows";
+import Rows from "./Rows/Rows";
 import { getToken } from '../utils/token';
 import { useNavigate } from 'react-router-dom'
 
@@ -12,7 +12,7 @@ function Table() {
     const token = getToken()
     const navigate = useNavigate()
 
-    useEffect(() => {
+    useEffect(() => { // corrigir bug p/ chamar ao mudar o state users
         request('http://localhost:3001/user',"GET",null,token)
             .then(resp => {
                 if (resp.status === 200) {

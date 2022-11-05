@@ -19,7 +19,10 @@ function FormUpdate() {
     const handleSubmit = e => {
         e.preventDefault()
         editUser(id,email,token)
-            .then(() => alert('usuário alterado com sucesso'))
+
+            .then(resp => {
+                if(resp.status===200) alert('usuário alterado com sucesso')
+            })
             .then(navigate('/user'))
             .catch(err => console.log(err))
         }

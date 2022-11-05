@@ -15,7 +15,6 @@ function FormCreate() {
         e.preventDefault()
             createUser(email,password,token)
                 .then(navigate('/user'))
-                .then()
                 .catch(err => console.log(err))
     }
     const handleCancel = e => {
