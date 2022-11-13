@@ -19,7 +19,7 @@ function Login() {
             .then(resp => resp.json())
             .then(json => setToken(json.token))
             .then(() => navigate('/user'))
-            .catch(err => console.log(err))
+            .catch(err => console.log(err)) // tratar o erro
         setEmail('')
         setPassword('')        
     }

@@ -1,30 +1,40 @@
 import './styles/Table.css'
 import React from "react";
-import { useEffect,useState } from "react";
+import { useState } from "react";
 import request from "../utils/request";
 import Rows from "./Rows/Rows";
 import { getToken } from '../utils/token';
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react';
+
+
 
 
 function Table() {
+    const isObjDiferent = (objA,objB) => {
+        return JSON.stringify(objA) !== JSON.stringify(objB)
+    }
+    const navigate = useNavigate()
     const [users,setUsers] = useState([])
     const token = getToken()
-    const navigate = useNavigate()
-
-    useEffect(() => { // corrigir bug p/ chamar ao mudar o state users
-        request('http://localhost:3001/user',"GET",null,token)
-            .then(resp => {
-                if (resp.status === 200) {
-                    return resp.json()
-                } else {
-                    navigate('/')
+    useEffect(() => {
+        const fetchData = async () => {
+            const resp = await request('http://localhost:3001/user',"GET",null,token)
+            if (resp.status === 200) {
+                const json = await resp.json()
+                const data = json.users
+                console.log(data)
+                if (isObjDiferent(data,users)) {
+                    console.log('entrou')
+                    setUsers(data)
                 }
-            })
-            .then(json => setUsers(json.users))
-            .catch(err => console.log(err))
-    },[token,navigate])
-
+            } else {
+                navigate('/')
+            }
+        }    
+        fetchData()
+    })
+    
     const handleClick = e => {
         navigate('/create')
     }

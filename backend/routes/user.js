@@ -9,7 +9,7 @@ router.get('/',(req,res,next) => {
                 mensagem:"Erro de requisição"
             })
         }
-        conn.query('SELECT id,email FROM api.basic',(err,results,field) => {
+        conn.query('SELECT id,email FROM api.basic ORDER BY id',(err,results,field) => {
             conn.release()
             if (err) {
                 return res.status(500).send({
