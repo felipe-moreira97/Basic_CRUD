@@ -22,14 +22,23 @@ router.post('/',(req,res,next) => {
         }
         conn.query('INSERT INTO api.basic (email,pass) VALUES (?,?)',
         [email,hash],(err,results,field) => {
-            conn.release()
             if (err) {
                 return res.status(401).send({
                     mensagem: "Erro ao criar usuário mysql"
                 })
             } else {
-                return res.status(200).send({
-                    mensagem:"usuário criado com sucesso"
+                conn.query('SELECT id,email FROM api.basic ORDER BY id',(err,results,field) => {
+                    conn.release()
+                    if (err) {
+                        return res.status(500).send({
+                            mensagem:"Erro de requisição"
+                        }) 
+                    }
+                    res.status(200).send({
+                        users:results,
+                        mensagem:"usuário criado com sucesso"
+                    })
+
                 })
             }
         })

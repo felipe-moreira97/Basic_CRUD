@@ -1,16 +1,16 @@
-import './styles/Login.css'
-import React from 'react'
-import { useState } from 'react'
-import editUser from '../utils/editUser'
-import { getToken } from '../utils/token'
+import '../styles/Login.css'
+import { useState,useMemo } from 'react'
 import { useNavigate,useLocation } from 'react-router-dom'
+import { updateUsers } from '../../Context/actions'
+import { useContext } from 'react'
+import globalContext from '../../Context/globalContext'
 
 function FormUpdate() {
-    const token = getToken()
     const navigate = useNavigate()
+    const context = useContext(globalContext)
     function useQuery() {
         const { search } = useLocation();
-        return React.useMemo(() => new URLSearchParams(search), [search]);
+        return useMemo(() => new URLSearchParams(search), [search]);
       }
     const query = useQuery()
     const [email,setEmail] = useState(query.get('email') || '')
@@ -18,14 +18,13 @@ function FormUpdate() {
 
     const handleSubmit = e => {
         e.preventDefault()
-        editUser(id,email,token)
-
-            .then(resp => {
-                if(resp.status===200) alert('usuário alterado com sucesso')
-            })
-            .then(navigate('/user'))
-            .catch(err => console.log(err))
+        const payload = {
+            id,
+            email
         }
+        updateUsers(context.dispatch,payload)
+        navigate('/user')
+    }
     const handleCancel = e => {
         e.preventDefault()
         navigate('/user')

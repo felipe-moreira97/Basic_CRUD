@@ -1,19 +1,22 @@
-import deleteUser from "../../utils/deleteUser"
 import { getToken } from "../../utils/token"
 import { useNavigate } from 'react-router-dom'
+import { useContext } from "react"
+import globalContext from "../../Context/globalContext"
+import { delUser } from "../../Context/actions"
 
-const Rows = ({users,setUsers}) => {
+const Rows = () => {
+    const context = useContext(globalContext)
+    const users = context.state.users
     const navigate =useNavigate()
     const token = getToken()
     const handleCLickDelete = id => {
-        deleteUser(id,token)
-        .then(json => setUsers(json.users))
-        .then(() => window.alert('Usuário apagado com sucesso'))
-        .catch(err => console.log(err))
+        const payload = {id}
+        delUser(context.dispatch,payload)
     }
     const handleClickEdit = (id,email) => {
         navigate(`/update?id=${id}&email=${email}`)
     }
+
     if (!users[0]) {
         return <></>
     } else {

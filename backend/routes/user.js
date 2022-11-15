@@ -34,17 +34,25 @@ router.put('/',(req,res,next) => {
         conn.query('UPDATE api.basic SET email = ? WHERE id= ?',
         [email,id],
         (err,result,field)=> {
-            conn.release()
             if (err) {
                 res.status(500).send({
                     mensagem:'erro de requisição'
                 })
-            } else{
-                res.status(200).send({
-                    mensagem:'usuário atualizado com sucesso'
+            } else {
+                conn.query('SELECT id,email FROM api.basic ORDER BY id',(err,result,field)=> {
+                    conn.release()
+                    if (err) {
+                        return res.status(500).send({
+                            mensagem:"erro do query"
+                        }) 
+                    } else {
+                        return res.status(200).send({
+                            users:result,
+                            mensagem:"usuário atualizado com sucesso"
+                        })
+                    }
                 })
             }
-
         })
     })
 })
@@ -63,7 +71,7 @@ router.delete('/',(req,res,next) => {
                     mensagem:"erro do query"
                 })
             } else {
-            conn.query('SELECT id,email FROM api.basic',(err,result,field)=> {
+            conn.query('SELECT id,email FROM api.basic ORDER BY id',(err,result,field)=> {
                 conn.release()
                 if (err) {
                     return res.status(500).send({

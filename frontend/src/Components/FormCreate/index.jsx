@@ -1,21 +1,25 @@
-import './styles/Login.css'
+import '../styles/Login.css'
 import React from 'react'
 import { useState } from 'react'
-import createUser from '../utils/createUser'
-import { getToken } from '../utils/token'
 import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import globalContext from '../../Context/globalContext'
+import { newUser } from '../../Context/actions'
 
 function FormCreate() {
-    const token = getToken()
+    const context = useContext(globalContext)
     const navigate = useNavigate()
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
 
     const handleSubmit = e => {
         e.preventDefault()
-            createUser(email,password,token)
-                .then(navigate('/user'))
-                .catch(err => console.log(err))
+        const payload = {
+            email,
+            password
+        }
+        newUser(context.dispatch,payload)
+    navigate('/user')
     }
     const handleCancel = e => {
         e.preventDefault()
